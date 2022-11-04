@@ -1,0 +1,17 @@
+﻿global using E_Tracker.Application.ViewModels.Producrs;
+global using Microsoft.AspNetCore.Mvc;
+global using E_Tracker.Application.Features.Commands.Product.CreateProduct;
+global using E_Tracker.Application.Features.Commands.Product.GetProductById;
+global using E_Tracker.Application.Features.Commands.Product.ProductImageFile.UploadImageFile;
+global using E_Tracker.Application.Features.Commands.Product.RemoveProduct;
+global using E_Tracker.Application.Features.Commands.Product.UpdateProduct;
+global using E_Tracker.Application.Features.Queries.GetAllProduct;
+global using MediatR;
+global using E_Tracker.Application.Features.Queries.ProductImageFile.GetProductImage;
+global using E_Tracker.Application.Features.Queries.ProductImageFile.RemoveProductImage;
+global using E_Tracker.Application;
+global using E_Tracker.Infrastructure;
+global using E_Tracker.Infrastructure.Filters;
+global using E_Tracker.Infrastructure.Services.Storage.Azure;
+global using E_Tracker.Persistence;
+global using FluentValidation.AspNetCore;
