@@ -1,4 +1,5 @@
-﻿using E_Tracker.Application.Abstractions.Token;
+﻿using System.Security.Authentication;
+using E_Tracker.Application.Abstractions.Token;
 using E_Tracker.Application.DTOs;
 using E_Tracker.Application.Exceptions;
 using MediatR;
@@ -27,12 +28,22 @@ public class LoginCommandHandler: IRequestHandler<LoginCommandRequest,LoginComma
         if (user == null)
             throw new NotFoundUserException("User not found");
         SignInResult  result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-      if (result.Succeeded)
-      {
-          TokenDTO tokenDto =  _tokenHandler.CreateAccessToken(5);
-      }
+        if (result.Succeeded)
+        {
+            TokenDTO tokenDto = _tokenHandler.CreateAccessToken(5);
+            return new LoginCommandSuccessResponse
+            {
+                TokenDto = tokenDto
+            };
+        }
 
-      return new();
+        //return new LoginCommandErrorResponse
+        //{
+        //    Message = "User Not Found"
+        //};
+        throw new AuthenticationException();
+
+
     }
 
 }

@@ -1,7 +1,4 @@
-
-
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
+using E_Tracker.Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,21 +13,7 @@ builder.Services.AddPersistenceService();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddDbConnection(builder.Configuration);
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthentication("Admin")
-    .AddJwtBearer(opt =>
-    {
-        opt.TokenValidationParameters = new()
-        {
-            ValidateAudience = true,
-            ValidateIssuer = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidAudience = builder.Configuration["Token:Audience"],
-            ValidIssuer = builder.Configuration["Token:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
-            
-        };
-    });
+builder.Services.AddAuth(builder.Configuration);
 //builder.Services.AddStorage<LocalStorage>();
 builder.Services.AddStorage<AzureStorage>();
 
@@ -57,7 +40,7 @@ app.UseStaticFiles();
 
 app.UseCors();
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

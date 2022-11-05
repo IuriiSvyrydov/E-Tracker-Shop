@@ -15,3 +15,5 @@ global using E_Tracker.Infrastructure.Filters;
 global using E_Tracker.Infrastructure.Services.Storage.Azure;
 global using E_Tracker.Persistence;
 global using FluentValidation.AspNetCore;
+global using System.Text;
+global using Microsoft.IdentityModel.Tokens;

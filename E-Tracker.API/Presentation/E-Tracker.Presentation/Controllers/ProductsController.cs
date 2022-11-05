@@ -1,9 +1,12 @@
 ﻿
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace E_Tracker.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class ProductsController : ControllerBase
     {
  

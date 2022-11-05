@@ -20,10 +20,10 @@
           <a class="nav-link active" aria-current="page" routerLink="basket">Basket</a>
         </li>
          <li class="nav-item">
-              <a class="nav-link active" aria-current="page" routerLink="register">Register</a>
+              <a class="nav-link active" aria-current="page" routerLink="register" *ngIf="!authService.isAuthenticated">Register</a>
             </li>
              <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="login">Login</a>
+          <a class="nav-link active" aria-current="page" routerLink="login" *ngIf="!authService.isAuthenticated">Login</a>
         </li>
         <li>
           
