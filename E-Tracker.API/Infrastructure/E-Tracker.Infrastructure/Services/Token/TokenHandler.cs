@@ -15,9 +15,9 @@ public class TokenHandler: ITokenHandler
         _configuration = configuration;
     }
 
-    public TokenDTO CreateAccessToken(int minute)
+    public TokenDto CreateAccessToken(int minute)
     {
-        TokenDTO token = new();
+        TokenDto token = new();
         SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
         SigningCredentials signingCredentials = new(key, SecurityAlgorithms.HmacSha256);
         token.Experation = DateTime.UtcNow.AddMinutes(minute);
@@ -33,7 +33,5 @@ public class TokenHandler: ITokenHandler
         JwtSecurityTokenHandler tokenHandler = new();
         token.AccessToken = tokenHandler.WriteToken(securityToken);
         return token;
-        
-        return null;
     }
 }

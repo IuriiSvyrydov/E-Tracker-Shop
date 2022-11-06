@@ -9,7 +9,7 @@ public class LoginCommandResponse
 
 public class LoginCommandSuccessResponse : LoginCommandResponse
 {
-    public TokenDTO TokenDto { get; set; }
+    public TokenDto TokenDto { get; set; }
 
 }
 

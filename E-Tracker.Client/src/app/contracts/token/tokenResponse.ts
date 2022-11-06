@@ -1,5 +1,5 @@
-import { Token } from "./token";
+import { TokenDto } from "./tokenDto";
 
 export class TokenResponse{
-    token: Token;
+    tokenDto: TokenDto;
 }

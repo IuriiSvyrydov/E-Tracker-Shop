@@ -4,5 +4,5 @@ namespace E_Tracker.Application.Abstractions.Token;
 
 public interface ITokenHandler
 {
-    TokenDTO CreateAccessToken(int minute);
+    DTOs.TokenDto CreateAccessToken(int minute);
 }

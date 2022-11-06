@@ -9,8 +9,6 @@ export class AuthService {
   constructor(private jwtHelper: JwtHelperService) { }
   identityCheck(){
     const token: string = localStorage.getItem("accessToken");
-      //  const decodedToken = this.jetHelper.decodeToken(token);
-      //  const expirationDate: Date = this.jetHelper.getTokenExpirationDate(token);
        let expired: boolean;
        try {
         expired = this.jwtHelper.isTokenExpired(token);
@@ -18,12 +16,12 @@ export class AuthService {
       } catch  {
          expired = true;
       }
-      isAuthenticate = token!=null && !expired
+      _isAuthenticate = token!=null && !expired
   }
   
   public get isAuthenticated() : boolean {
-    return isAuthenticate;
+    return _isAuthenticate;
   }
   
 }
-export let isAuthenticate:boolean;
+export let _isAuthenticate:boolean;

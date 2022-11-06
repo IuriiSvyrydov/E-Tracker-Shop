@@ -30,7 +30,7 @@ public class LoginCommandHandler: IRequestHandler<LoginCommandRequest,LoginComma
         SignInResult  result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
         if (result.Succeeded)
         {
-            TokenDTO tokenDto = _tokenHandler.CreateAccessToken(5);
+            TokenDto tokenDto = _tokenHandler.CreateAccessToken(5);
             return new LoginCommandSuccessResponse
             {
                 TokenDto = tokenDto

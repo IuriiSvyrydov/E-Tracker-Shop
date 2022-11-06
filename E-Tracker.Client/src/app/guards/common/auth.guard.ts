@@ -4,7 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
 import { SpinnerType } from 'src/app/base/base.component';
-import { AuthService, isAuthenticate } from 'src/app/services/common/auth.service';
+import { AuthService, _isAuthenticate } from 'src/app/services/common/auth.service';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'src/app/services/ui/custom-toastr.service';
 
 @Injectable({
@@ -19,10 +19,15 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
       this.spinner.show(SpinnerType.BallScaleMultiple);
-       debugger;
-      if (isAuthenticate) {
-         this.router.navigate(["login"],{queryParams:{returnUrl:state.url}});
+      if (!_isAuthenticate) {
+            this.router.navigate(["login"], { queryParams: { returnUrl: state.url } });
+            debugger;
+            this.toastr.message("Login was wrong","Warning",{
+              messageType: ToastrMessageType.Warning,
+              position: ToastrPosition.TopRight
 
+            });
+            this.spinner.hide(SpinnerType.BallScaleMultiple);
        }
 
     return true;

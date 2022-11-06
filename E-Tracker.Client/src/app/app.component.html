@@ -26,8 +26,11 @@
           <a class="nav-link active" aria-current="page" routerLink="login" *ngIf="!authService.isAuthenticated">Login</a>
         </li>
         <li>
-          
-            <a routerLink="admin" class="btn btn-outline-success" type="submit">Admin Panel</a>
+             <a class="nav-link active" aria-current="page" style="color: red; cursor: pointer;"(click)="SignOut() " *ngIf="authService.isAuthenticated">SignOut</a>
+
+        </li>
+        <li>
+            <a routerLink="admin" class="btn btn-outline-success" type="submit" *ngIf="authService.isAuthenticated">Admin Panel</a>
         </li>
       </ul>
       <form class="d-flex" role="search">

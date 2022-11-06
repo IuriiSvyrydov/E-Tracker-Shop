@@ -29,7 +29,6 @@
     <Folder Include="Features\Commands\Login\" />
     <Folder Include="Features\Commands\Product\RemoveProduct\" />
     <Folder Include="Features\Commands\Product\UpdateProduct\" />
-    <Folder Include="DTOs\" />
     <Folder Include="ViewModels\Products\" />
   </ItemGroup>
 
