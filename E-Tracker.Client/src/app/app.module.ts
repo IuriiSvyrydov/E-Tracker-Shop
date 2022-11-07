@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AdminModule } from './admin/admin.module';
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -10,10 +10,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
+import { LoginComponent } from './ui/components/login/login.component';
+import { GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent
     
   ],
   imports: [
@@ -22,6 +25,7 @@ import { JwtModule } from '@auth0/angular-jwt';
     AdminModule,
    UiModule,
    NgxSpinnerModule,
+   SocialLoginModule,
     BrowserAnimationsModule,
     JwtModule.forRoot({
       config:{
@@ -30,10 +34,23 @@ import { JwtModule } from '@auth0/angular-jwt';
       }
     }),
     HttpClientModule,
+  
     ToastrModule.forRoot()
   ],
   providers: [
-    {provide: "baseUrl",useValue:"https://localhost:7008/api",multi: true}
+    {provide: "baseUrl",useValue:"https://localhost:7008/api",multi: true},
+    {provide:"SocialAuthServiceConfig",
+      useValue:{
+        autoLogin:false,
+        providers:[
+          { id: GoogleLoginProvider.PROVIDER_ID,
+            plugin_name:'etracker',
+            provider: new GoogleLoginProvider("915094679290-c41ge18liqp1u992huqrji93bv9t6c5r.apps.googleusercontent.com")}
+        ]
+      }}
+  ],
+  schemas:[
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   bootstrap: [AppComponent]
 })
