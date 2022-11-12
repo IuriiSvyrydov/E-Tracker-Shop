@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { SocialUser } from 'angularx-social-login';
 import { firstValueFrom, Observable } from 'rxjs';
 import { TokenResponse } from 'src/app/contracts/token/tokenResponse';
 import { Create_User } from 'src/app/contracts/users/create_user';
@@ -39,5 +39,42 @@ async login(userNameOrEmail: string,password:string,callBackFunction?:()=>void):
   });
     
   callBackFunction();
+}
+async googleLogin(user:SocialUser,callBackFunction?:()=>void): Promise<any>{
+  const observable:Observable<SocialUser|TokenResponse>= this.httpClientService.post<SocialUser|TokenResponse>({
+        action:"google-login",
+        controller:"users"
+      },user)
+      const tokenResponse:TokenResponse =  await firstValueFrom(observable) as TokenResponse
+
+      if (tokenResponse) {
+        localStorage.setItem("accessToken",tokenResponse.tokenDto.accessToken);
+      }
+      this.toastr.message("google login successfully ","google login success, welcome",{
+        position:ToastrPosition.TopRight,
+        messageType:ToastrMessageType.Success
+      });
+      callBackFunction();
+}
+async faceBookLogin(user: SocialUser,callBackFunction?:()=>void): Promise<any>{
+  const observable: Observable<SocialUser|TokenResponse> = this.httpClientService.post<SocialUser|TokenResponse>({
+    controller:"users",
+    action:"facebook-login"
+  },user);
+  const tokenResponse =  await firstValueFrom(observable) as TokenResponse
+  if (tokenResponse) {
+    localStorage.setItem("accessToken",tokenResponse.tokenDto.accessToken);
+    this.toastr.message("google login successfully ","google login success, welcome",{
+        position:ToastrPosition.TopRight,
+        messageType:ToastrMessageType.Success
+      });
+  } 
+      callBackFunction();
+   this.toastr.message("facefook login successfully ","facebook login success, welcome",{
+        position:ToastrPosition.TopRight,
+        messageType:ToastrMessageType.Success
+      });
+      callBackFunction();
+
 }
 }

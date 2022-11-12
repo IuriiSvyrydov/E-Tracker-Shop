@@ -8,5 +8,6 @@ public static class ServiceRegistration
     public static void AddInfrastructureServices(this IServiceCollection services)
     {
         services.AddMediatR(typeof(ServiceRegistration));
+        services.AddHttpClient();
     }
 }

@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { LoginComponent } from './ui/components/login/login.component';
 import { GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
+import {  FacebookLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
     BrowserAnimationsModule,
     JwtModule.forRoot({
       config:{
-        tokenGetter:()=>localStorage.getItem("accessToken"),
+       
+       tokenGetter:()=>localStorage.getItem("accessToken"),
         allowedDomains:["localhost:7008"]
       }
     }),
@@ -37,17 +39,29 @@ import { GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
   
     ToastrModule.forRoot()
   ],
+  
   providers: [
     {provide: "baseUrl",useValue:"https://localhost:7008/api",multi: true},
-    {provide:"SocialAuthServiceConfig",
-      useValue:{
-        autoLogin:false,
-        providers:[
-          { id: GoogleLoginProvider.PROVIDER_ID,
-            plugin_name:'etracker',
-            provider: new GoogleLoginProvider("915094679290-c41ge18liqp1u992huqrji93bv9t6c5r.apps.googleusercontent.com")}
-        ]
-      }}
+   {
+    
+         provide: "SocialAuthServiceConfig",
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider("1013805387157-l8k45f5sha52vsii7bvo61v7bat8t441.apps.googleusercontent.com")
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider("784148045978382")
+          }
+         
+        ],
+        
+        onError: err => console.log(err)
+      } as SocialAuthServiceConfig
+   }
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA
@@ -55,3 +69,4 @@ import { GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
