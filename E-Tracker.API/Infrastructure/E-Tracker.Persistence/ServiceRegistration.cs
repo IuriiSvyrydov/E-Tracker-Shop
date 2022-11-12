@@ -1,4 +1,6 @@
-﻿
+﻿using E_Tracker.Application.Abstractions.Services;
+using E_Tracker.Application.Abstractions.Services.AuthenticationService;
+using E_Tracker.Persistence.Services;
 
 namespace E_Tracker.Persistence
 {
@@ -19,6 +21,10 @@ namespace E_Tracker.Persistence
             services.AddScoped<IInvoiceFileReadRepository, InvoiceFileReadRepository>();
             services.AddScoped<IProductImageFileReadRepository, ProductImageFileReadRepository>();
             services.AddScoped<IProductImageFileWriteRepository, ProductImageFileWriteRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IExternalAuthentication, AuthService>();
+            services.AddScoped<IInternalAuthentication, AuthService>();
             services.AddIdentity<AppUser, AppRole>(options =>
                 {
                     options.Password.RequiredLength = 3;

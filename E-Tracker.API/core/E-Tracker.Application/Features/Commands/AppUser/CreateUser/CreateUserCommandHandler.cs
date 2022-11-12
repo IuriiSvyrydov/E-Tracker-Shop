@@ -1,4 +1,6 @@
-﻿using E_Tracker.Application.Exceptions.UserException;
+﻿using E_Tracker.Application.Abstractions.Services;
+using E_Tracker.Application.DTOs.User;
+using E_Tracker.Application.Exceptions.UserException;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -6,36 +8,28 @@ namespace E_Tracker.Application.Features.Commands.AppUser.CreateUser;
 
 public class CreateUserCommandHandler: IRequestHandler<CreateUserCommandRequest,CreateUserCommandResponse>
 {
-    private readonly UserManager<Domain.Identity.AppUser> _userManager;
+    private readonly IUserService _userService;
 
-    public CreateUserCommandHandler(UserManager<Domain.Identity.AppUser> userManager)
+    public CreateUserCommandHandler(IUserService userService)
     {
-        _userManager = userManager;
+        _userService = userService;
     }
 
     public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
-    { 
-        var result = await _userManager.CreateAsync(new()
+    {
+       CreateUserResponse response = await _userService.CreateAsync(new()
         {
-            Id = Guid.NewGuid().ToString(),
-            SureName = request.NameSurName,
-            UserName = request.UserName,
             Email = request.Email,
-
-        }, request.Password);
-        CreateUserCommandResponse response = new(){Successed = result.Succeeded};
-        if (result.Succeeded)
-
-            return new()
-            {
-                Successed = true,
-                Message = "User was Created successfully"
-            };
-        //   throw new UserCreatedFailException();
-        else
-            foreach (var error in result.Errors)
-                response.Message += $"{error.Code}-{error.Description}<br>";
-        return response;
+            NameSurName = request.NameSurName,
+            UserName = request.UserName,
+            Password = request.Password,
+            PasswordConfirm = request.PasswordConfirm
+        });
+        return new()
+        {
+            Message = response.Message,
+            Successed = response.Successeded
+        };
 
 
 
