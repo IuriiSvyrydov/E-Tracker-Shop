@@ -1,5 +1,6 @@
 ﻿using E_Tracker.Application.Abstractions.Services;
 using E_Tracker.Application.DTOs.User;
+using E_Tracker.Application.Exceptions;
 
 namespace E_Tracker.Persistence.Services;
 
@@ -29,7 +30,23 @@ public class UserService: IUserService
         //   throw new UserCreatedFailException();
         else
             foreach (var error in result.Errors)
-                response.Message += $"{error.Code}-{error.Description}<br>";
+                response.Message += $"{error.Code}-{error.Description}";
         return response;
+    }
+
+    public async Task UpdateRefreshToken(string refreshToken, AppUser user,DateTime accessTokenDate, int refreshTokenLifeTime)
+    {
+        if (user!=null)
+        {
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenEndDate = accessTokenDate.AddSeconds(refreshTokenLifeTime);
+            await _userManager.UpdateAsync(user);
+
+        }
+  
+        
+        //else{
+        //    throw new NotFoundUserException();
+        //}
     }
 }

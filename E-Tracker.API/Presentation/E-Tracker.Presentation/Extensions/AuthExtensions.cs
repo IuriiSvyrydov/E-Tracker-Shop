@@ -19,7 +19,9 @@ public static class AuthExtensions
                     ValidateIssuerSigningKey = true,
                     ValidAudience = configuration["Token:Audience"],
                     ValidIssuer = configuration["Token:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token:SecurityKey"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token:SecurityKey"])),
+                    LifetimeValidator = (notBefore,expires,
+                        securityToken,validationParameters)=>expires!=null ? expires>DateTime.UtcNow : false
 
                 };
             });

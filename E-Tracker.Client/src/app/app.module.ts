@@ -8,11 +8,12 @@ import { AppComponent } from './app.component';
 import { UiModule } from './ui/ui.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { LoginComponent } from './ui/components/login/login.component';
 import { GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import {  FacebookLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { HttpHandlerInterceptorService } from './services/common/http-handler-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -61,8 +62,10 @@ import {  FacebookLoginProvider, SocialAuthServiceConfig } from '@abacritt/angul
         
         onError: err => console.log(err)
       } as SocialAuthServiceConfig
-   }
+   },
+     {provide: HTTP_INTERCEPTORS,useClass: HttpHandlerInterceptorService,multi:true}
   ],
+
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA
   ],

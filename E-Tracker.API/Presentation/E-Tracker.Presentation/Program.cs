@@ -1,5 +1,3 @@
-using E_Tracker.Presentation.Extensions;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,6 +12,8 @@ builder.Services.AddInfrastructureServices();
 builder.Services.AddDbConnection(builder.Configuration);
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuth(builder.Configuration);
+builder.Services.AddSignalRService();
+builder.AddLogger();
 //builder.Services.AddStorage<LocalStorage>();
 builder.Services.AddStorage<AzureStorage>();
 
@@ -23,7 +23,8 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
 
     });
 });
@@ -43,5 +44,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHubs();
+app.ConfigureExceptionHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>());
 
 app.Run();

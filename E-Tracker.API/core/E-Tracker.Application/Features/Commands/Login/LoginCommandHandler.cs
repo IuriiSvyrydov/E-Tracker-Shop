@@ -1,48 +1,28 @@
-﻿using System.Security.Authentication;
-using E_Tracker.Application.Abstractions.Token;
-using E_Tracker.Application.DTOs;
-using E_Tracker.Application.Exceptions;
+﻿
+using E_Tracker.Application.Abstractions.Services;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace E_Tracker.Application.Features.Commands.Login;
 
 public class LoginCommandHandler: IRequestHandler<LoginCommandRequest,LoginCommandResponse>
 {
-    private readonly UserManager<Domain.Identity.AppUser> _userManager;
-    private readonly SignInManager<Domain.Identity.AppUser> _signInManager;
-    private readonly ITokenHandler _tokenHandler;
-    public LoginCommandHandler(UserManager<Domain.Identity.AppUser> userManager, SignInManager<Domain.Identity.AppUser> signInManager, ITokenHandler tokenHandler)
+
+    private readonly IAuthService _authService;
+
+    public LoginCommandHandler(IAuthService authService)
     {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _tokenHandler = tokenHandler;
+        _authService = authService;
     }
 
     public async Task<LoginCommandResponse> Handle(LoginCommandRequest request,
         CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByNameAsync(request.UserNameOrEmail);
-        if (user == null)
-            user = await _userManager.FindByEmailAsync(request.UserNameOrEmail);
-        if (user == null)
-            throw new NotFoundUserException("User not found");
-        SignInResult  result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-        if (result.Succeeded)
+
+        var token = await _authService.LoginAsync(request.UserNameOrEmail, request.Password,15);
+        return new LoginCommandSuccessResponse()
         {
-            TokenDto tokenDto = _tokenHandler.CreateAccessToken(5);
-            return new LoginCommandSuccessResponse
-            {
-                TokenDto = tokenDto
-            };
-        }
-
-        //return new LoginCommandErrorResponse
-        //{
-        //    Message = "User Not Found"
-        //};
-        throw new AuthenticationException();
-
+            TokenDto = token
+        };
 
     }
 

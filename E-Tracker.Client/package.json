@@ -23,6 +23,7 @@
     "@angular/router": "^14.0.0",
     "@auth0/angular-jwt": "^5.1.0",
     "@electron/remote": "^2.0.8",
+    "@microsoft/signalr": "^7.0.0",
     "alertifyjs": "^1.13.1",
     "angularx-social-login": "^4.1.0",
     "bootstrap": "^5.2.1",

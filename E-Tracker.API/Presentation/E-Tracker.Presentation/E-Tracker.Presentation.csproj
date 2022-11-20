@@ -11,6 +11,8 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="Google.Apis.Auth" Version="1.57.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
+    <PackageReference Include="Roc.Serilog.Sinks.MSSqlServer" Version="5.1.6" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
@@ -18,10 +20,12 @@
     <ProjectReference Include="..\..\core\E-Tracker.Application\E-Tracker.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\E-Tracker.Infrastructure\E-Tracker.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\E-Tracker.Persistence\E-Tracker.Persistence.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\E-Tracker.SignalR\E-Tracker.SignalR.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
+    <Folder Include="Configurations\ColumnWriters\" />
+    <Folder Include="logs\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
